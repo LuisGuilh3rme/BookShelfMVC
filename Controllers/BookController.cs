@@ -7,7 +7,7 @@ namespace Controllers
         public void InsertBook(int id, string title, string author)
         {
             Book book = new Book();
-            book.Id = id;
+            book.Id = Guid.NewGuid();
             book.Title = title;
             book.Author = author;
         }
