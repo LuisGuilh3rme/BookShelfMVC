@@ -8,5 +8,6 @@ namespace Models
 {
     internal class Shelf
     {
+        public List<Book> books;
     }
 }

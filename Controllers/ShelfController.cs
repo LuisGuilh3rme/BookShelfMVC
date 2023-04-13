@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Models;
 namespace Controllers
 {
     internal class ShelfController
     {
+        public static void InsertBookShelf(Book book)
+        {
+            Shelf shelf = new();
+        }
     }
 }
