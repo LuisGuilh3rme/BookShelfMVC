@@ -17,6 +17,7 @@ namespace Controllers
             }
         }
 
-        public static Book GetBook (Shelf shelf, string title) => shelf.books.Find(book => book.Title == title);
+        public static Book? GetBook (Shelf shelf, string title, string author) => shelf.books.Find(book => (book.Title == title) && (book.Author == author));
+
     }
 }
