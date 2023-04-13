@@ -119,7 +119,6 @@ internal class Program
             default:
                 Console.WriteLine("Opção inválida");
                 return false;
-                break;
         }
 
         return true;
@@ -129,8 +128,62 @@ internal class Program
     {
         Console.WriteLine();
         Console.WriteLine("Operações disponíveis: ");
-        Console.WriteLine("1 - Trocar status do livro");
-        Console.WriteLine("2 - ");
-        Console.ReadLine();
+        Console.WriteLine("1 - Editar livro");
+        Console.WriteLine("2 - Remover livro");
+        Console.WriteLine("3 - Sair do menu ");
+
+        int.TryParse(Console.ReadLine(), out int opt);
+        switch (opt) 
+        {
+            case 1:
+                Book book = FindBook(shelf);
+                if (book is not null) EditBook(book);
+                else PrintError("Livro não encontrado");
+                break;
+        }
+    }
+
+    private static Book? FindBook(Shelf shelf)
+    {
+        Console.WriteLine("Insira o index do livro: ");
+        bool valid = int.TryParse(Console.ReadLine(), out int index);
+
+        if (!valid) return null;
+
+        return ShelfController.GetBookByIndex(shelf, index);
+    }
+
+    private static void EditBook(Book book)
+    {
+        Console.Clear();
+        Console.WriteLine(book);
+        Console.WriteLine();
+
+        Console.WriteLine("O que deseja fazer?");
+        Console.WriteLine("1 - Editar titulo");
+        Console.WriteLine("2 - Editar autor");
+        Console.WriteLine("3 - Mudar status");
+        Console.WriteLine("4 - Sair");
+
+        int.TryParse(Console.ReadLine(), out int opt);
+        switch (opt)
+        {
+            case 1:
+                Console.WriteLine("Escreva o novo titulo: ");
+                string title = Console.ReadLine();
+                book = BookController.ChangeBookTitle(book, title);
+                break;
+            case 2:
+                Console.WriteLine("Escreva o novo autor: ");
+                string author = Console.ReadLine();
+                book = BookController.ChangeBookAuthor(book, author);
+                break;
+            case 3:
+                book = BookController.ChangeBookStatus(book);
+                break;
+            case 4: return;
+            default: PrintError("Opção inválida, tente novamente"); break;
+        }
+        ShelfController.EditShelf(MyShelf, book);
     }
 }

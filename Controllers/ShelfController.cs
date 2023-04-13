@@ -1,4 +1,5 @@
-﻿using System.Threading.Channels;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Channels;
 using Models;
 namespace Controllers
 {
@@ -16,7 +17,20 @@ namespace Controllers
             shelf.books.ForEach(book => Console.WriteLine("{0}) {1}", ++count, book));
         }
 
-        public static Book? GetBook (Shelf shelf, string title, string author) => shelf.books.Find(book => (book.Title == title) && (book.Author == author));
+        public static Book? GetBook(Shelf shelf, string title, string author) => shelf.books.Find(book => (book.Title == title) && (book.Author == author));
 
+        public static Book? GetBookByIndex(Shelf shelf, int index)
+        {
+            index = index - 1;
+            if (index > shelf.books.Count - 1 || index < 0) return null;
+
+            return shelf.books[index];
+        }
+
+        public static void EditShelf(Shelf shelf, Book changedBook)
+        {
+            int index = shelf.books.FindIndex(book => book.Id == changedBook.Id);
+            shelf.books[index] = changedBook;
+        }
     }
 }

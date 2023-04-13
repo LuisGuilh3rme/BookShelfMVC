@@ -14,5 +14,23 @@ namespace Controllers
 
             return book;
         }
+
+        public static Book ChangeBookTitle(Book book, string title)
+        {
+            book.Title = title;
+            return book;
+        }
+
+        public static Book ChangeBookAuthor(Book book, string author)
+        {
+            book.Author = author;
+            return book;
+        }
+
+        public static Book ChangeBookStatus(Book book)
+        {
+            book.Status = (book.Status ? false : true);
+            return book;
+        }
     }
 }
