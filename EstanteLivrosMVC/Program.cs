@@ -82,12 +82,6 @@ internal class Program
     {
         Console.Clear();
 
-        if (MyShelf.books.Count == 0)
-        {
-            PrintError("Estante vazia.");
-            return true;
-        }
-
         Console.WriteLine("1 - Mostrar a estante completa");
         Console.WriteLine("2 - Mostrar livros guardados");
         Console.WriteLine("3 - Mostrar livros emprestados");
@@ -98,18 +92,38 @@ internal class Program
         switch (opt)
         {
             case 1:
+                if (ShelfController.ShelfCount(MyShelf) == 0)
+                {
+                    PrintError("Estante vazia.");
+                    return true;
+                }
+
                 ShelfController.PrintShelf(MyShelf);
                 ShelfOperations(MyShelf);
                 break;
             case 2:
                 Shelf storedBooks = new Shelf();
                 storedBooks.books = MyShelf.books.FindAll(book => book.Status);
+
+                if (ShelfController.ShelfCount(storedBooks) == 0)
+                {
+                    PrintError("Estante vazia.");
+                    return true;
+                }
+
                 ShelfController.PrintShelf(storedBooks);
                 ShelfOperations(storedBooks);
                 break;
             case 3:
                 Shelf borrowBooks = new Shelf();
                 borrowBooks.books = MyShelf.books.FindAll(book => !book.Status);
+
+                if (ShelfController.ShelfCount(borrowBooks) == 0)
+                {
+                    PrintError("Estante vazia.");
+                    return true;
+                }
+
                 ShelfController.PrintShelf(borrowBooks);
                 ShelfOperations(borrowBooks);
                 break;

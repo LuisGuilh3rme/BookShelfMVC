@@ -17,6 +17,8 @@ namespace Controllers
             shelf.books.ForEach(book => Console.WriteLine("{0}) {1}", ++count, book));
         }
 
+        public static int ShelfCount(Shelf shelf) => shelf.books.Count();
+
         public static Book? GetBook(Shelf shelf, string title, string author) => shelf.books.Find(book => (book.Title == title) && (book.Author == author));
 
         public static Book? GetBookByIndex(Shelf shelf, int index)
