@@ -25,7 +25,7 @@ internal class Program
             }
 
             ChooseOption(opt);
-        } while (opt != 4);
+        } while (opt != 3);
     }
 
     private static void Menu()
@@ -33,9 +33,8 @@ internal class Program
         Console.Clear();
         Console.WriteLine("Menu de opções: ");
         Console.WriteLine("1 - Adicionar livro");
-        Console.WriteLine("2 - Remover livro");
-        Console.WriteLine("3 - Visualizar estante");
-        Console.WriteLine("4 - Sair do menu");
+        Console.WriteLine("2 - Visualizar estante");
+        Console.WriteLine("3 - Sair do menu");
     }
 
     private static void ChooseOption(int opt)
@@ -45,7 +44,7 @@ internal class Program
         {
             case 1: validation = InsertBook(); break;
 
-            case 3: validation = PrintShelf(); break;
+            case 2: validation = PrintShelf(); break;
         }
 
         if (!validation) PrintError("Insira informações válidas na próxima vez!");
@@ -133,11 +132,18 @@ internal class Program
         Console.WriteLine("3 - Sair do menu ");
 
         int.TryParse(Console.ReadLine(), out int opt);
+        Book? book = null;
+
         switch (opt) 
         {
             case 1:
-                Book book = FindBook(shelf);
+                book = FindBook(shelf);
                 if (book is not null) EditBook(book);
+                else PrintError("Livro não encontrado");
+                break;
+            case 2:
+                book = FindBook(shelf);
+                if (book is not null) ShelfController.RemoveBook(MyShelf, book);
                 else PrintError("Livro não encontrado");
                 break;
         }

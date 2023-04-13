@@ -32,5 +32,10 @@ namespace Controllers
             int index = shelf.books.FindIndex(book => book.Id == changedBook.Id);
             shelf.books[index] = changedBook;
         }
+
+        public static void RemoveBook(Shelf shelf, Book book)
+        {
+            shelf.books.Remove(book);
+        }
     }
 }
