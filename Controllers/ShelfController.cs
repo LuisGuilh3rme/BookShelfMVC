@@ -16,5 +16,7 @@ namespace Controllers
                 Console.WriteLine(book);
             }
         }
+
+        public static Book GetBook (Shelf shelf, string title) => shelf.books.Find(book => book.Title == title);
     }
 }
