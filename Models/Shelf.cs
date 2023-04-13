@@ -8,6 +8,6 @@ namespace Models
 {
     public class Shelf
     {
-        public List<Book> books;
+        public List<Book> books = new List<Book>();
     }
 }

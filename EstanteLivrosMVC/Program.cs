@@ -5,14 +5,17 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        Shelf shelf = new();
+
         Console.WriteLine("Nome do livro: ");
         string title = Console.ReadLine();
 
         Console.WriteLine("Nome do autor: ");
         string author = Console.ReadLine();
 
-        Book book = BookController.InsertBook(title, author);
+        shelf = ShelfController.InsertBookShelf(shelf, BookController.InsertBook(title, author));
 
-        Console.WriteLine(book);
+        ShelfController.PrintShelf(shelf);
+        
     }
 }

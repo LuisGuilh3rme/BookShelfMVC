@@ -1,11 +1,20 @@
 ﻿using Models;
 namespace Controllers
 {
-    internal class ShelfController
+    public class ShelfController
     {
-        public static void InsertBookShelf(Book book)
+        public static Shelf InsertBookShelf(Shelf shelf, Book book)
         {
-            Shelf shelf = new();
+            shelf.books.Add(book);
+            return shelf;
+        }
+
+        public static void PrintShelf(Shelf shelf)
+        {
+            foreach (Book book in shelf.books)
+            {
+                Console.WriteLine(book);
+            }
         }
     }
 }
