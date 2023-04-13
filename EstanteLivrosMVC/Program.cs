@@ -12,5 +12,7 @@ internal class Program
         string author = Console.ReadLine();
 
         Book book = BookController.InsertBook(title, author);
+
+        Console.WriteLine(book);
     }
 }

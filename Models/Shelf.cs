@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    internal class Shelf
+    public class Shelf
     {
         public List<Book> books;
     }
