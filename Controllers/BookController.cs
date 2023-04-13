@@ -10,6 +10,7 @@ namespace Controllers
             book.Id = Guid.NewGuid();
             book.Title = title;
             book.Author = author;
+            book.Status = true;
 
             return book;
         }

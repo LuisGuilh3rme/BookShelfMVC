@@ -41,7 +41,7 @@ internal class Program
     private static void ChooseOption(int opt)
     {
         bool validation = true;
-        switch(opt)
+        switch (opt)
         {
             case 1: validation = InsertBook(); break;
 
@@ -69,7 +69,7 @@ internal class Program
 
         Book book = ShelfController.GetBook(MyShelf, title, author);
 
-        if (book is null)
+        if (book is not null)
         {
             Console.WriteLine("Livro já existente na estante.");
             return false;
@@ -85,8 +85,8 @@ internal class Program
 
         if (MyShelf.books.Count == 0)
         {
-            Console.WriteLine("Estante vazia.");
-            return false;
+            PrintError("Estante vazia.");
+            return true;
         }
 
         Console.WriteLine("1 - Mostrar a estante completa");
@@ -94,8 +94,43 @@ internal class Program
         Console.WriteLine("3 - Mostrar livros emprestados");
         Console.WriteLine("4 - Sair do menu");
         int.TryParse(Console.ReadLine(), out int opt);
-        if (opt == 0) Console.WriteLine("Opção inválida, tente novamente");
+
+        Console.WriteLine();
+        switch (opt)
+        {
+            case 1:
+                ShelfController.PrintShelf(MyShelf);
+                ShelfOperations(MyShelf);
+                break;
+            case 2:
+                Shelf storedBooks = new Shelf();
+                storedBooks.books = MyShelf.books.FindAll(book => book.Status);
+                ShelfController.PrintShelf(storedBooks);
+                ShelfOperations(storedBooks);
+                break;
+            case 3:
+                Shelf borrowBooks = new Shelf();
+                borrowBooks.books = MyShelf.books.FindAll(book => !book.Status);
+                ShelfController.PrintShelf(borrowBooks);
+                ShelfOperations(borrowBooks);
+                break;
+            case 4: return true; break;
+
+            default:
+                Console.WriteLine("Opção inválida");
+                return false;
+                break;
+        }
 
         return true;
+    }
+
+    private static void ShelfOperations(Shelf shelf)
+    {
+        Console.WriteLine();
+        Console.WriteLine("Operações disponíveis: ");
+        Console.WriteLine("1 - Trocar status do livro");
+        Console.WriteLine("2 - ");
+        Console.ReadLine();
     }
 }

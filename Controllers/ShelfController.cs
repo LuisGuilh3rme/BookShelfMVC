@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using System.Threading.Channels;
+using Models;
 namespace Controllers
 {
     public class ShelfController
@@ -11,10 +12,8 @@ namespace Controllers
 
         public static void PrintShelf(Shelf shelf)
         {
-            foreach (Book book in shelf.books)
-            {
-                Console.WriteLine(book);
-            }
+            int count = 0;
+            shelf.books.ForEach(book => Console.WriteLine("{0}) {1}", ++count, book));
         }
 
         public static Book? GetBook (Shelf shelf, string title, string author) => shelf.books.Find(book => (book.Title == title) && (book.Author == author));
