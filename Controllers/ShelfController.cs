@@ -30,6 +30,7 @@ namespace Controllers
 
         public static void EditShelf(Shelf shelf, Book changedBook)
         {
+            if (shelf.books.Exists(book => (book.Title == changedBook.Title && book.Author == changedBook.Author))) return;
             int index = shelf.books.FindIndex(book => book.Id == changedBook.Id);
             shelf.books[index] = changedBook;
         }

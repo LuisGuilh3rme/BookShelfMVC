@@ -82,7 +82,9 @@ namespace Controllers
             // Builder de set
             var update = Builders<BsonDocument>.Update.Set("title", book.Title);
             // Filtro para verificação de titulo repetido
-            var verificationFilter = Builders<BsonDocument>.Filter.Eq("title", book.Title);
+            var titleFilter = Builders<BsonDocument>.Filter.Eq("title", book.Title);
+            var authorFilter = Builders<BsonDocument>.Filter.Eq("author", book.Author);
+            var verificationFilter = Builders<BsonDocument>.Filter.And(titleFilter, authorFilter);
 
             // Edita na coleção correspondente
             if (book.Status)
@@ -104,8 +106,21 @@ namespace Controllers
             // Builder de set
             var update = Builders<BsonDocument>.Update.Set("author", book.Author);
 
-            if (book.Status) StoredCollection.UpdateOne(filter, update);
-            else BorrowCollection.UpdateOne(filter, update);
+            var titleFilter = Builders<BsonDocument>.Filter.Eq("title", book.Title);
+            var authorFilter = Builders<BsonDocument>.Filter.Eq("author", book.Author);
+            var verificationFilter = Builders<BsonDocument>.Filter.And(titleFilter, authorFilter);
+
+            // Edita na coleção correspondente
+            if (book.Status)
+            {
+                if (StoredCollection.Find(verificationFilter).Count() != 0) return;
+                StoredCollection.UpdateOne(filter, update);
+            }
+            else
+            {
+                if (StoredCollection.Find(verificationFilter).Count() != 0) return;
+                BorrowCollection.UpdateOne(filter, update);
+            }
         }
 
         public void EditBookPublisher(Book book)

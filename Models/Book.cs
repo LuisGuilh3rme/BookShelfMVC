@@ -26,7 +26,7 @@ namespace Models
 
         public override string ToString()
         {
-            return $"Id: {Id} | Titulo: {Title} | Autores: {Author} | Editora: {Publisher} | Status: {(Status ? "Guardado" : "Emprestado")}";
+            return $"Titulo: {Title} | Autores: {Author} | Editora: {Publisher} | Status: {(Status ? "Guardado" : "Emprestado")}";
         }
     }
 }
