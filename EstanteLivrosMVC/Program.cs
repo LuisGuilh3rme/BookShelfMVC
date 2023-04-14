@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.Design;
-using Controllers;
+﻿using Controllers;
 using Models;
 
 internal class Program
@@ -9,7 +7,10 @@ internal class Program
 
     private static void Main(string[] args)
     {
+        MongoController mc = new MongoController();
+
         MyShelf = new Shelf();
+        MyShelf.books = mc.LoadMongoShelf();
 
         int opt = 0;
         do
@@ -101,6 +102,7 @@ internal class Program
                 ShelfController.PrintShelf(MyShelf);
                 ShelfOperations(MyShelf);
                 break;
+
             case 2:
                 Shelf storedBooks = new Shelf();
                 storedBooks.books = MyShelf.books.FindAll(book => book.Status);
@@ -114,6 +116,7 @@ internal class Program
                 ShelfController.PrintShelf(storedBooks);
                 ShelfOperations(storedBooks);
                 break;
+
             case 3:
                 Shelf borrowBooks = new Shelf();
                 borrowBooks.books = MyShelf.books.FindAll(book => !book.Status);
@@ -127,7 +130,8 @@ internal class Program
                 ShelfController.PrintShelf(borrowBooks);
                 ShelfOperations(borrowBooks);
                 break;
-            case 4: return true; break;
+
+            case 4: return true;
 
             default:
                 Console.WriteLine("Opção inválida");

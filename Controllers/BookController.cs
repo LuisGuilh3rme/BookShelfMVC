@@ -7,7 +7,7 @@ namespace Controllers
         public static Book InsertBook(string title, string author)
         {
             Book book = new Book();
-            book.Id = Guid.NewGuid();
+            book.Id = Guid.NewGuid().ToString();
             book.Title = title;
             book.Author = author;
             book.Status = true;

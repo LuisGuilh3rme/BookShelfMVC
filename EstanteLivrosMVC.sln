@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EstanteLivrosMVC", "EstanteLivrosMVC\EstanteLivrosMVC.csproj", "{9B32EF2C-8344-4E5E-96B9-2DE435B6AD89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "View", "EstanteLivrosMVC\View.csproj", "{9B32EF2C-8344-4E5E-96B9-2DE435B6AD89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{67CC2EC7-DB77-4EA0-9202-A2984B1FCF0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{67CC2EC7-DB77-4EA0-9202-A2984B1FCF0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controllers", "Controllers\Controllers.csproj", "{34C10CCC-0639-4033-8DA1-3A0BEB918AD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controllers", "Controllers\Controllers.csproj", "{34C10CCC-0639-4033-8DA1-3A0BEB918AD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
