@@ -1,15 +1,17 @@
 ﻿using Models;
+using MongoDB.Bson;
 
 namespace Controllers
 {
     public static class BookController
     {
-        public static Book InsertBook(string title, string author)
+        public static Book InsertBook(string title, string author, string publisher)
         {
             Book book = new Book();
-            book.Id = Guid.NewGuid().ToString();
+            book.Id = ObjectId.GenerateNewId();
             book.Title = title;
             book.Author = author;
+            book.Publisher = publisher;
             book.Status = true;
 
             return book;

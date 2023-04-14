@@ -4,11 +4,10 @@ using Models;
 internal class Program
 {
     public static Shelf MyShelf { get; set; }
+    public static MongoController mc = new MongoController();
 
     private static void Main(string[] args)
     {
-        MongoController mc = new MongoController();
-
         MyShelf = new Shelf();
         MyShelf.books = mc.LoadMongoShelf();
 
@@ -67,6 +66,9 @@ internal class Program
         Console.WriteLine("Nome do autor: ");
         string author = Console.ReadLine();
 
+        Console.WriteLine("Nome da editora: ");
+        string publisher = Console.ReadLine();
+
         Book book = ShelfController.GetBook(MyShelf, title, author);
 
         if (book is not null)
@@ -75,7 +77,9 @@ internal class Program
             return false;
         }
 
-        MyShelf = ShelfController.InsertBookShelf(MyShelf, BookController.InsertBook(title, author));
+        book = BookController.InsertBook(title, author, publisher);
+        ShelfController.InsertBookShelf(MyShelf, book);
+        mc.InsertBook(book);
         return true;
     }
 
