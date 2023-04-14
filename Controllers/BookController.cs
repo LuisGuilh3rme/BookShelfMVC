@@ -28,6 +28,11 @@ namespace Controllers
             book.Author = author;
             return book;
         }
+        public static Book ChangeBookPublisher(Book book, string publisher)
+        {
+            book.Publisher = publisher;
+            return book;
+        }
 
         public static Book ChangeBookStatus(Book book)
         {

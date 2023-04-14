@@ -3,6 +3,7 @@
 using Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using System.Reflection.Metadata;
 
 namespace Controllers
 {
@@ -94,5 +95,42 @@ namespace Controllers
                     {"status", book.Status }
                 });
         }
+
+        public void EditBookTitle(Book book)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
+            var update = Builders<BsonDocument>.Update.Set("title", book.Title);
+            var verificationFilter = Builders<BsonDocument>.Filter.Eq("title", book.Title);
+
+            if (book.Status)
+            {
+                if (StoredCollection.Find(verificationFilter).Count() != 0) return;
+                StoredCollection.UpdateOne(filter, update);
+            }
+            else
+            {
+                if (StoredCollection.Find(verificationFilter).Count() != 0) return;
+                BorrowCollection.UpdateOne(filter, update);
+            }
+        }
+
+        public void EditBookAuthor(Book book)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
+            var update = Builders<BsonDocument>.Update.Set("author", book.Author);
+
+            if (book.Status) StoredCollection.UpdateOne(filter, update);
+            else BorrowCollection.UpdateOne(filter, update);
+        }
+
+        public void EditBookPublisher(Book book)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
+            var update = Builders<BsonDocument>.Update.Set("publisher", book.Publisher);
+
+            if (book.Status) StoredCollection.UpdateOne(filter, update);
+            else BorrowCollection.UpdateOne(filter, update);
+        }
+
     }
 }

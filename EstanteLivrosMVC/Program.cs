@@ -165,7 +165,11 @@ internal class Program
                 break;
             case 2:
                 book = FindBook(shelf);
-                if (book is not null) ShelfController.RemoveBook(MyShelf, book);
+                if (book is not null)
+                {
+                    ShelfController.RemoveBook(MyShelf, book);
+                    mc.RemoveBook(book);
+                }
                 else PrintError("Livro não encontrado");
                 break;
         }
@@ -190,26 +194,35 @@ internal class Program
         Console.WriteLine("O que deseja fazer?");
         Console.WriteLine("1 - Editar titulo");
         Console.WriteLine("2 - Editar autor");
-        Console.WriteLine("3 - Mudar status");
-        Console.WriteLine("4 - Sair");
+        Console.WriteLine("3 - Editar editora");
+        Console.WriteLine("4 - Mudar status");
+        Console.WriteLine("5 - Sair");
 
         int.TryParse(Console.ReadLine(), out int opt);
         switch (opt)
         {
             case 1:
-                Console.WriteLine("Escreva o novo titulo: ");
+                Console.WriteLine("Escreva o titulo: ");
                 string title = Console.ReadLine();
                 book = BookController.ChangeBookTitle(book, title);
+                mc.EditBookTitle(book);
                 break;
             case 2:
-                Console.WriteLine("Escreva o novo autor: ");
+                Console.WriteLine("Escreva o autor: ");
                 string author = Console.ReadLine();
                 book = BookController.ChangeBookAuthor(book, author);
+                mc.EditBookAuthor(book);
                 break;
             case 3:
+                Console.WriteLine("Escreva a editora: ");
+                string publisher = Console.ReadLine();
+                book = BookController.ChangeBookPublisher(book, publisher);
+                mc.EditBookPublisher(book);
+                break;
+            case 4:
                 book = BookController.ChangeBookStatus(book);
                 break;
-            case 4: return;
+            case 5: return;
             default: PrintError("Opção inválida, tente novamente"); break;
         }
         ShelfController.EditShelf(MyShelf, book);
