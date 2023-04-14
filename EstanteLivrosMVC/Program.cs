@@ -93,7 +93,7 @@ internal class Program
         Console.WriteLine("4 - Sair do menu");
         int.TryParse(Console.ReadLine(), out int opt);
 
-        Console.WriteLine();
+        Console.Clear();
         switch (opt)
         {
             case 1:
@@ -177,6 +177,10 @@ internal class Program
 
     private static Book? FindBook(Shelf shelf)
     {
+        Console.Clear();
+        ShelfController.PrintShelf(shelf);
+        Console.WriteLine();
+
         Console.WriteLine("Insira o index do livro: ");
         bool valid = int.TryParse(Console.ReadLine(), out int index);
 
