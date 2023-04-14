@@ -221,6 +221,7 @@ internal class Program
                 break;
             case 4:
                 book = BookController.ChangeBookStatus(book);
+                mc.EditBookStatus(book);
                 break;
             case 5: return;
             default: PrintError("Opção inválida, tente novamente"); break;

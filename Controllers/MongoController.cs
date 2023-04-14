@@ -4,6 +4,7 @@ using Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using System.Reflection.Metadata;
+using Microsoft.VisualBasic;
 
 namespace Controllers
 {
@@ -51,6 +52,7 @@ namespace Controllers
                 // Insere o novo documento na collection de livros guardados ou emprestados
                 if (book.Status) StoredCollection.InsertOne(new BsonDocument
                 {
+                    {"_id", book.Id },
                     { "title", book.Title },
                     { "author", book.Author },
                     {"publisher", book.Publisher },
@@ -59,6 +61,7 @@ namespace Controllers
 
                 else BorrowCollection.InsertOne(new BsonDocument
                 {
+                    {"_id", book.Id },
                     { "title", book.Title },
                     { "author", book.Author },
                     {"publisher", book.Publisher },
@@ -130,6 +133,45 @@ namespace Controllers
 
             if (book.Status) StoredCollection.UpdateOne(filter, update);
             else BorrowCollection.UpdateOne(filter, update);
+        }
+
+        public void EditBookStatus(Book book)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
+
+            if (book.Status)
+            {
+                BorrowCollection.FindOneAndDelete(filter);
+                StoredCollection.InsertOne(new BsonDocument
+                {
+                    {"_id", book.Id},
+                    { "title", book.Title },
+                    { "author", book.Author },
+                    {"publisher", book.Publisher },
+                    {"status", book.Status }
+                });
+            }
+
+            else
+            {
+                StoredCollection.FindOneAndDelete(filter);
+                BorrowCollection.InsertOne(new BsonDocument
+                {
+                    {"_id", book.Id},
+                    { "title", book.Title },
+                    { "author", book.Author },
+                    {"publisher", book.Publisher },
+                    {"status", book.Status }
+                });
+            }
+        }
+
+        public void RemoveBook(Book book)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
+
+            if (book.Status) StoredCollection.FindOneAndDelete(filter);
+            else BorrowCollection.FindOneAndDelete(filter);
         }
 
     }
