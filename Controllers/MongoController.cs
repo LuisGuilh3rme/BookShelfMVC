@@ -45,35 +45,12 @@ namespace Controllers
             return new List<Book>().Concat(storedList.Concat(borrowList)).ToList();
         }
 
-        public void InsertFullShelf(Shelf shelf)
-        {
-            shelf.books.ForEach(book =>
-            {
-                // Insere o novo documento na collection de livros guardados ou emprestados
-                if (book.Status) StoredCollection.InsertOne(new BsonDocument
-                {
-                    {"_id", book.Id },
-                    { "title", book.Title },
-                    { "author", book.Author },
-                    {"publisher", book.Publisher },
-                    {"status", book.Status }
-                });
-
-                else BorrowCollection.InsertOne(new BsonDocument
-                {
-                    {"_id", book.Id },
-                    { "title", book.Title },
-                    { "author", book.Author },
-                    {"publisher", book.Publisher },
-                    {"status", book.Status }
-                });
-            });
-        }
-
         public void InsertBook(Book book)
         {
+            // Filtro de conteúdo a ser encontrado
             var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
 
+            // Verificação de duplicatas
             int count = 0;
 
             count = StoredCollection.Find(filter).ToList().Count;
@@ -82,6 +59,7 @@ namespace Controllers
             count = BorrowCollection.Find(filter).ToList().Count;
             if (count != 0) return;
 
+            // Insere na coleção correspondente
             if (book.Status) StoredCollection.InsertOne(new BsonDocument
                 {
                     { "title", book.Title },
@@ -101,10 +79,14 @@ namespace Controllers
 
         public void EditBookTitle(Book book)
         {
+            // Filtro de conteúdo
             var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
+            // Builder de set
             var update = Builders<BsonDocument>.Update.Set("title", book.Title);
+            // Filtro para verificação de titulo repetido
             var verificationFilter = Builders<BsonDocument>.Filter.Eq("title", book.Title);
 
+            // Edita na coleção correspondente
             if (book.Status)
             {
                 if (StoredCollection.Find(verificationFilter).Count() != 0) return;
@@ -119,7 +101,9 @@ namespace Controllers
 
         public void EditBookAuthor(Book book)
         {
+            // Filtro de conteúdo
             var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
+            // Builder de set
             var update = Builders<BsonDocument>.Update.Set("author", book.Author);
 
             if (book.Status) StoredCollection.UpdateOne(filter, update);
@@ -128,7 +112,9 @@ namespace Controllers
 
         public void EditBookPublisher(Book book)
         {
+            // Filtro de conteúdo
             var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
+            // Builder de set
             var update = Builders<BsonDocument>.Update.Set("publisher", book.Publisher);
 
             if (book.Status) StoredCollection.UpdateOne(filter, update);
@@ -137,8 +123,10 @@ namespace Controllers
 
         public void EditBookStatus(Book book)
         {
+            // Filtro de conteúdo
             var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
 
+            // Insere na coleção contrária da atual, e remove documento da atual coleção
             if (book.Status)
             {
                 BorrowCollection.FindOneAndDelete(filter);
@@ -168,8 +156,10 @@ namespace Controllers
 
         public void RemoveBook(Book book)
         {
+            // Filtro de conteúdo
             var filter = Builders<BsonDocument>.Filter.Eq("_id", book.Id);
 
+            // Remove da coleção correspondente
             if (book.Status) StoredCollection.FindOneAndDelete(filter);
             else BorrowCollection.FindOneAndDelete(filter);
         }
